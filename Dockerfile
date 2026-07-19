@@ -13,6 +13,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Baaki ka application code copy karein
 COPY app.py .
 
+COPY templates/ ./templates/
+
 # Port expose karein
 EXPOSE 5000
 

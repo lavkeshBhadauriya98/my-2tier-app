@@ -26,20 +26,22 @@ services:
       - .env
     environment:
       - DB_HOST=db
+    expose:
+      - "5000" # Flask ka internal port jo sirf Nginx ko dikhega
     depends_on:
       db:
-        condition: service_healthy # Jab tak DB ready nahi hoga, Flask start nahi hoga
+        condition: service_healthy
 
   # Reverse Proxy: Nginx (Jo sirf bahar expose hoga)
   nginx:
     image: nginx:alpine
     restart: always
     ports:
-      - "80:80" # Bahar ki duniya ke liye sirf port 80 open hai
+      - "80:80" # Bahar browser me localhost:80 (ya sirf localhost) se access hoga
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - web
 
 volumes:
-  db_data: # Data persist rakhne ke liye volume (12-Factor: Backing services)
+  db_data:
